@@ -19,24 +19,32 @@ export const blogRouter = new Hono<{
 //middleware for authentication in hono
 blogRouter.use('/*', async (c, next) => {
 
-    const authHeader = c.req.header("Authorization");
+    const authHeader = c.req.header("Authorization") || "";
     if (!authHeader) {
         return c.json({
             message: "unauthorized"
         })
     }
-    const token = authHeader?.split(' ')[1]
+    try {
+        const token = authHeader?.split(' ')[1]
 
-    const response = await verify(token, c.env.JWT_SECRET);
-    if (!response.id) {
+        const response = await verify(token, c.env.JWT_SECRET);
+        if (!response.id) {
+            c.status(403);
+            return c.json({
+                message: "unauthorized"
+            })
+        }
+
+        c.set('userId', response.id);
+        await next();
+    } catch (e) {
         c.status(403);
+        console.log(e);
         return c.json({
-            message: "unauthorized"
+            message: "something went wrong in authentication"
         })
     }
-    
-    c.set('userId', response.id);
-    await next();
 });
 
 
@@ -46,7 +54,6 @@ blogRouter.post("/", async (c) => {
     }).$extends(withAccelerate());
 
     const body = await c.req.json();
-    
     //@ts-ignore
     const authorId = c.get("userId");
 
@@ -83,7 +90,7 @@ blogRouter.put("/", async(c) => {
     try{
         const blog = await prisma.post.update({
             where: {
-                id: body.id
+                id: Number(body.id)
             },
             data: {
                 title: body.title,
@@ -102,6 +109,30 @@ blogRouter.put("/", async(c) => {
         })
     
     }
+});
+
+//pagination should be implemented!
+blogRouter.get("/bulk", async (c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    try{
+        const blogs = await prisma.post.findMany();
+        return c.json({
+            blogs: blogs.map((blog: {id: number;
+                title: string;
+                content: string;
+                published: boolean;
+                authorId: string; })=>blog.title)
+        })
+    }catch(e){
+        console.log(e);
+        c.status(500);
+        return c.json({
+            message: "Something went wrong"
+        })
+        }
 })
 
 blogRouter.get("/:id", async(c) => {
@@ -109,12 +140,12 @@ blogRouter.get("/:id", async(c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    const body  = await c.req.param('id')
+    const id  = Number(c.req.param('id'))
 
     try{
         const   blog = await prisma.post.findFirst({
             where:{
-                id: body
+                id: id
             }
         })
         return c.json({
@@ -129,26 +160,4 @@ blogRouter.get("/:id", async(c) => {
     }
 })
 
-//pagination should be implemented!
-blogRouter.get("/bulk", async (c) => {
-    const prisma = new PrismaClient({
-        datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate());
 
-    try{
-        const blogs = await prisma.post.findMany();
-        return c.json({
-            blogs: blogs.map((blog: {id: string;
-                title: string;
-                content: string;
-                published: boolean;
-                authorId: string; })=>blog.title)
-        })
-    }catch(e){
-        console.log(e);
-        c.status(500);
-        return c.json({
-            message: "Something went wrong"
-        })
-        }
-})
