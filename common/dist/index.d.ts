@@ -46,6 +46,6 @@ export declare const updateBlogInput: z.ZodObject<{
     id: number;
 }>;
 export type SignupInput = z.infer<typeof signupInput>;
-export type SigninInput = z.infer<typeof signupInput>;
+export type SigninInput = z.infer<typeof signinInput>;
 export type CreateBlogInput = z.infer<typeof createBlogInput>;
 export type UpdateBlogInput = z.infer<typeof updateBlogInput>;
