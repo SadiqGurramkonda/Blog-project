@@ -131,13 +131,24 @@ blogRouter.get("/bulk", async (c) => {
     }).$extends(withAccelerate());
 
     try{
-        const blogs = await prisma.post.findMany();
+        const blogs = await prisma.post.findMany({
+            select: {
+                content: true,
+                title: true,
+                id: true,
+                author: {
+                    select:{
+                        name: true
+                    }
+                }
+            }
+        });
+       const trimmedBlogs = blogs.map((blog)=>{
+        blog.author.name = blog.author.name?blog.author.name.replace(/[^a-zA-Z ]/g, ""): "Anonymous";
+        return blog
+       });
         return c.json({
-            blogs: blogs.map((blog: {id: number;
-                title: string;
-                content: string;
-                published: boolean;
-                authorId: string; })=>blog.title)
+            blogs: trimmedBlogs
         })
     }catch(e){
         console.log(e);
@@ -156,11 +167,22 @@ blogRouter.get("/:id", async(c) => {
     const id  = Number(c.req.param('id'))
 
     try{
-        const   blog = await prisma.post.findFirst({
+        const  blog = await prisma.post.findFirst({
             where:{
                 id: id
+            },
+            select:{
+                id: true,
+                title: true,
+                content: true,
+                author: {
+                    select:{
+                        name: true
+                    }
+                }
             }
-        })
+        });
+        blog!.author.name = blog?.author?.name?blog?.author?.name.replace(/[^a-zA-Z ]/g, ""):"Anonymous"
         return c.json({
             blog
         })
