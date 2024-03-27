@@ -16,7 +16,7 @@ export const Signin = () => {
     })
 
     const signin = async()=>{
-        const response = await axios.post(`${BASE_URL}/user/signin`,postInputs);
+        const response = await axios.post(`${BASE_URL}/ser/signin`,postInputs);
         localStorage.setItem('token',response.data.token);
         console.log(localStorage.getItem('token'));
     }
