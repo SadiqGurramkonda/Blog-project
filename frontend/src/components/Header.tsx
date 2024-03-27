@@ -1,17 +1,20 @@
 import { Avatar } from "./BlogCard"
+import { Link } from "react-router-dom"
 
-export const Header = ()=>{
+export const Header = () => {
 
-    return(
+    return (
         <div>
             <div className="flex  justify-between px-2 py-2 border-b">
-                <div className="flex flex-col justify-center">
-                    Medium
-                </div>
+                <Link to={"/blogs"}>
+                    <div className="flex flex-col justify-center font-black text-xl">
+                        MEDIUM
+                    </div>
+                </Link>
                 <div>
                     <Avatar name="SDQ" size="big"></Avatar>
                 </div>
-            </div> 
+            </div>
         </div>
-        )
-    }
+    )
+}
