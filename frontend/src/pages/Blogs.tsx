@@ -1,14 +1,14 @@
 import { BlogCard } from "../components/BlogCard"
+import { Loader } from "../components/Loader";
 import { useBlogs } from "../hooks/fetchBlogs"
+
 
 
 export const Blogs = ()=>{
     const {loading,blogs} = useBlogs();
     if(loading){
         return(
-            <div>
-                loading...
-            </div>
+            <Loader/>
         )
     }
     return(

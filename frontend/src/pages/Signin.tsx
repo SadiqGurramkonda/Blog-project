@@ -23,7 +23,6 @@ export const Signin = () => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="h-screen flex flex-col bg-slate-300 justify-center">
-                {JSON.stringify({postInputs})}
                 <div className="flex justify-center">
                     <div className="bg-white rounded-lg px-6">
                         <div className="px-10 py-6">
