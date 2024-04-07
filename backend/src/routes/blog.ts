@@ -22,6 +22,7 @@ blogRouter.use('/*', async (c, next) => {
 
     const authHeader = c.req.header("Authorization") || "";
     if (!authHeader) {
+        c.status(403);
         return c.json({
             message: "unauthorized"
         })
@@ -59,6 +60,7 @@ blogRouter.post("/", async (c) => {
 
     const {success} = createBlogInput.safeParse(body);
     if(!success){
+        c.status(400);
         return c.json({
             message: "Invalid Inputs"
         })
@@ -95,6 +97,7 @@ blogRouter.put("/", async (c) => {
     const { success } = updateBlogInput.safeParse(body);
      console.log(success);
     if (!success) {
+        c.status(400);
         return c.json({
             message: "Invalid Inputs"
         })
