@@ -6,9 +6,12 @@ import { useBlogs } from "../hooks/fetchBlogs"
 
 export const Blogs = ()=>{
     const {loading,blogs} = useBlogs();
-    if(loading){
-        return(
-            <Loader/>
+    if (loading) {
+        return (
+            <div className="max-h-screen">
+                <Loader />
+                <Loader />
+            </div>
         )
     }
     return(

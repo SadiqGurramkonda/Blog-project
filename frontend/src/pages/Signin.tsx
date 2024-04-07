@@ -6,19 +6,22 @@ import { Quote } from "../components/Quote"
 import axios from "axios"
 import { BASE_URL } from "../config"
 import { SigninInput } from "@sadiqgurramkonda/medium-common"
+import { useNavigate } from "react-router-dom"
 
 
 export const Signin = () => {
 
+    const navigate = useNavigate()
     const [postInputs, setPostInputs] = useState<SigninInput>({
         email: "",
         password: "",
     })
 
     const signin = async()=>{
-        const response = await axios.post(`${BASE_URL}/ser/signin`,postInputs);
+        const response = await axios.post(`${BASE_URL}/user/signin`,postInputs);
         localStorage.setItem('token',response.data.token);
         console.log(localStorage.getItem('token'));
+        navigate("/blogs")
     }
     return (
         <div className="grid grid-cols-1 md:grid-cols-2">
