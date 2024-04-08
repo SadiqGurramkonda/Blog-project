@@ -1,5 +1,4 @@
-export const ErrorLabel = ({ errormsg }: { errormsg: string }) => {
-
+export const ErrorLabel = ({ errormsg }: { errormsg: string | null}) => {
 
     return (
 

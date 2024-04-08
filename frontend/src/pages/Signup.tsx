@@ -4,22 +4,35 @@ import { AuthHeader, Button, LabelledInput } from "../components/Auth"
 import { Quote } from "../components/Quote"
 import axios from "axios"
 import { BASE_URL } from "../config"
+import { useNavigate } from "react-router-dom"
+import { ErrorLabel } from "../components/ErrorLabel"
 
 
 
 export const Signup = () => {
+
+    const navigate  = useNavigate();
     const [postInputs, setPostInputs] = useState<SignupInput>({
         email: "",
         name: "",
         password: ""
     });
+    const [errormsg, setErrormsg] = useState(null);
 
     const signupUser = async()=>{
+        let response;
 
-        const response = await axios.post(`${BASE_URL}/user/signup`,
-            postInputs);
-        console.log(response);
-        localStorage.setItem('token',response.data.token);
+        try {
+            response = await axios.post(`${BASE_URL}/user/signup`,
+                postInputs);
+            console.log(response);
+            localStorage.setItem('token', response.data.token);
+            navigate("/blogs")
+        }
+        catch(err:any){
+            console.log(err);
+            setErrormsg(err.response.data.message);
+        }
     }
     return (
         <div className="grid grid-cols-1 md:grid-cols-2">
@@ -31,6 +44,7 @@ export const Signup = () => {
                             <AuthHeader type="signup"></AuthHeader>
                         </div>
                         <div className="mt-5 pb-6">
+                            {errormsg && <ErrorLabel errormsg={errormsg}/>}
                             <LabelledInput onChange={(e) => {
                                 setPostInputs(c => {
                                     return {

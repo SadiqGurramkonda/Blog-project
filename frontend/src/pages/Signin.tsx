@@ -7,21 +7,28 @@ import axios from "axios"
 import { BASE_URL } from "../config"
 import { SigninInput } from "@sadiqgurramkonda/medium-common"
 import { useNavigate } from "react-router-dom"
+import { ErrorLabel } from "../components/ErrorLabel"
 
 
 export const Signin = () => {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [errormsg, setErrormsg] = useState(null);
     const [postInputs, setPostInputs] = useState<SigninInput>({
         email: "",
         password: "",
     })
 
     const signin = async()=>{
-        const response = await axios.post(`${BASE_URL}/user/signin`,postInputs);
+        let response;
+        try{
+        response = await axios.post(`${BASE_URL}/user/signin`,postInputs);
         localStorage.setItem('token',response.data.token);
-        console.log(localStorage.getItem('token'));
-        navigate("/blogs")
+        navigate("/blogs");
+        }catch(err:any){
+            console.log(err.response.data.message);
+            setErrormsg(err.response.data.message);
+        }
     }
     return (
         <div className="grid grid-cols-1 md:grid-cols-2">
@@ -32,6 +39,7 @@ export const Signin = () => {
                             <AuthHeader type="signin"></AuthHeader>
                         </div>
                         <div className="mt-5 pb-6">
+                            {errormsg && <ErrorLabel errormsg={errormsg}/>}
                             <LabelledInput onChange={(e) => {
                                 setPostInputs(c => {
                                     return {

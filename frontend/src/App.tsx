@@ -6,8 +6,6 @@ import { Signin } from './pages/Signin'
 import { Blogs } from './pages/Blogs'
 import { Layout } from './components/layout'
 import { Publish } from './pages/Publish'
-import { Loader } from './components/Loader'
-import { ErrorLabel } from './components/ErrorLabel'
 function App() {
 
 
