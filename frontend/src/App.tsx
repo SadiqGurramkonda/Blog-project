@@ -1,5 +1,5 @@
  
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, redirect } from 'react-router-dom'
 import { Signup } from './pages/Signup'
 import { Blog } from './pages/Blog'
 import { Signin } from './pages/Signin'
@@ -13,6 +13,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout></Layout>}>
+          <Route path='/' element={<Navigate to={"/signup"}></Navigate>}></Route>
           <Route path="/blog/:id" element={<Blog></Blog>}></Route>
           <Route path="/blogs" element={<Blogs></Blogs>}></Route>
           <Route path="/publish" element={<Publish></Publish>}></Route>
