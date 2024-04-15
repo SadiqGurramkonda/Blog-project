@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import { BASE_URL } from "../config";
 
 export interface Blog{
     "content": string,
@@ -15,7 +16,7 @@ export const useBlogs = ()=>{
     const [blogs, setBlogs] = useState<Blog[]>([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8787/api/v1/blog/bulk',{
+        axios.get(`${BASE_URL}/blog/bulk`,{
             headers:{
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
@@ -36,7 +37,7 @@ export const useBlog =  ({id}:{id:string})=>{
     const [blog, setBlog] = useState<Blog>();
 
     useEffect(() => {
-        axios.get(`http://localhost:8787/api/v1/blog/${id}`,{
+        axios.get(`${BASE_URL}/blog/${id}`,{
             headers:{
                 Authorization: "Bearer " + localStorage.getItem('token')
             }
