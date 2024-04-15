@@ -1,5 +1,5 @@
  
-import { BrowserRouter, Navigate, Route, Routes, redirect } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Signup } from './pages/Signup'
 import { Blog } from './pages/Blog'
 import { Signin } from './pages/Signin'
