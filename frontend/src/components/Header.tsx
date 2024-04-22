@@ -14,11 +14,18 @@ export const Header = () => {
                     </Link>
                     </div>
                 <div className="flex">
-                    <div className="px-10">
+                    <div className="">
                         <Link to={"/publish"}>
                          <Button onClick={()=>{}} label="Create" />
                         </Link>
-                        </div>
+                    </div>
+                    <div className="px-10">
+                        <Link to={"/signin"}>
+                         <Button onClick={()=>{
+                            localStorage.removeItem("token");
+                         }} label="Logout" />
+                        </Link>
+                    </div>
                     <div className=" flex flex-col justify-center">
                         <Avatar name="SDQ" size="big"></Avatar>
                     </div>
