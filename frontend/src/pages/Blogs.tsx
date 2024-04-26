@@ -5,7 +5,7 @@ import { useBlogs } from "../hooks/fetchBlogs"
 
 
 export const Blogs = ()=>{
-    const {loading,blogs} = useBlogs();
+    const {blogs,loading} = useBlogs();
     if (loading) {
         return (
             <div className="max-h-screen">
@@ -15,12 +15,13 @@ export const Blogs = ()=>{
         )
     }
     return(
-        <div>
+            <div>
             <div className="flex justify-center">
             <div className="max-w-2xl">
                 {blogs.map((blog: any)=>{return(<BlogCard id={blog.id} key={blog.id} authorName={blog.author.name} publishedDate="2nd Feb 2024" title={blog.title} content={blog.content}/>)})} 
             </div>
             </div>
         </div>
+
     )
 }

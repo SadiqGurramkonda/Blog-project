@@ -6,10 +6,12 @@ import { Signin } from './pages/Signin'
 import { Blogs } from './pages/Blogs'
 import { Layout } from './components/layout'
 import { Publish } from './pages/Publish'
+import { RecoilRoot } from 'recoil'
 function App() {
 
 
   return (
+    <RecoilRoot>
     <BrowserRouter>
       <Routes>
         <Route element={<Layout></Layout>}>
@@ -22,6 +24,7 @@ function App() {
         <Route path="/signin" element={<Signin></Signin>}></Route>
       </Routes>
     </BrowserRouter>
+    </RecoilRoot>
   )
 }
 
