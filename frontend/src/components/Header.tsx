@@ -10,7 +10,6 @@ export const Header = () => {
   const avatarRef = useRef(null);
 
   const userDetails:any = useRecoilValue(currentUserState);
-  console.log(userDetails);
 
   const toggleDropdown = () => {
     if (dropdownRef.current) {

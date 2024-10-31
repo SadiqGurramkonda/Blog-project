@@ -23,7 +23,7 @@ export const Signin = () => {
     password: "",
   });
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
-  console.log(currentUser);
+
 
   const signin = async () => {
     if(!postInputs.email || !postInputs.password) return
@@ -36,7 +36,7 @@ export const Signin = () => {
       localStorage.setItem("token", response.data.token);
       navigate("/blogs");
     } catch (err: any) {
-      console.log(err.response.data.message);
+
       setErrormsg(err.response.data.message);
     } finally {
       setIsLoading(false);

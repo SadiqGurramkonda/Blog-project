@@ -6,7 +6,7 @@ import { useMyBlogs } from "../hooks/fetchBlogs";
 
 export default function MyBlogs(){
     const { myBlogs, isLoading} = useMyBlogs();
-    console.log(myBlogs);
+
 
     if (isLoading) {
       return (

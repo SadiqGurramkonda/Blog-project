@@ -36,7 +36,7 @@ export const Signup = () => {
       setIsLoading(false);
       navigate("/blogs");
     } catch (err: any) {
-      console.log(err);
+
       setErrormsg(err.response.data.message);
       setIsLoading(false);
     }

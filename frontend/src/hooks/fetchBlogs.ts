@@ -99,7 +99,6 @@ export const useMyBlogs = ()=>{
                 },
               })
               .then((response) => {
-                console.log(response.data);
                 setMyBlogs(response.data.myBlogs);
                 setIsLoading(false);
               });
