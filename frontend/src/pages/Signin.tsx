@@ -11,7 +11,7 @@ import { BASE_URL } from "../config";
 import { SigninInput } from "@sadiqgurramkonda/medium-common";
 import { useNavigate } from "react-router-dom";
 import { ErrorLabel } from "../components/ErrorLabel";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { currentUserState } from "../store/blogs";
 
 export const Signin = () => {
@@ -22,7 +22,7 @@ export const Signin = () => {
     email: "",
     password: "",
   });
-  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
+  const setCurrentUser = useSetRecoilState(currentUserState);
 
 
   const signin = async () => {
