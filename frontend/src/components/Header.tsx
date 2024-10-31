@@ -53,7 +53,7 @@ export const Header = () => {
           </div>
           <div className="flex flex-col justify-center relative">
             <button onClick={toggleDropdown} ref={avatarRef}>
-              <Avatar name="SDQ" size="big"></Avatar>
+              <Avatar name={userDetails?.username || "A"} size="big"></Avatar>
             </button>
             {
               <div
