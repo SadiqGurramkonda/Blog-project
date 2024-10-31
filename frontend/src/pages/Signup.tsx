@@ -2,16 +2,15 @@ import { SignupInput } from "@sadiqgurramkonda/medium-common";
 import { useState } from "react";
 import {
   AuthHeader,
-  Button,
   ButtonLoading,
   LabelledInput,
 } from "../components/Auth";
 import { Quote } from "../components/Quote";
-import axios, { isAxiosError } from "axios";
+import axios from "axios";
 import { BASE_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import { ErrorLabel } from "../components/ErrorLabel";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { currentUserState } from "../store/blogs";
 
 export const Signup = () => {
@@ -23,7 +22,7 @@ export const Signup = () => {
   });
   const [errormsg, setErrormsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
+  const setCurrentUser = useSetRecoilState(currentUserState);
 
 
   const signupUser = async () => {

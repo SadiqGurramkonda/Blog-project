@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   AuthHeader,
-  Button,
   ButtonLoading,
   LabelledInput,
 } from "../components/Auth";
