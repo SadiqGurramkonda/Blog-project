@@ -21,7 +21,6 @@ export const Publish = () => {
                 Authorization: "Bearer "+localStorage.getItem("token")
             }
         });
-        console.log(resId);
         if(resId){
             navigate(`/blog/${resId.data.id}`);
         }

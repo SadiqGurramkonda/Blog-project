@@ -9,6 +9,9 @@ export const userRouter = new Hono<{
     Bindings:{
         DATABASE_URL: string,
         JWT_SECRET: string
+    },
+    Variables: {
+        currentUser: any;
     }
 }>();
 
@@ -36,8 +39,12 @@ userRouter.post("/signup", async (c) => {
         });
         const token = await sign({ id: user.id }, c.env.JWT_SECRET)
         return c.json({
-            token
-        })
+          userDetails: {
+            email: user.email.replace(/["/]/g, ""),
+            username: user.name?.replace(/["/]/g, "") || "Anonymous",
+          },
+          token,
+        });
     } catch (e) {
         console.log(e)
         c.status(411);
@@ -69,7 +76,6 @@ userRouter.post("/signin", async (c) => {
                 password: JSON.stringify(body.password)
             }
         });
-        console.log(user);
         if (!user) {
             c.status(403); //403 ---> status code for unauthorized!
             return c.json({
@@ -78,8 +84,12 @@ userRouter.post("/signin", async (c) => {
         }
         const token = await sign({ id: user?.id }, c.env.JWT_SECRET)
         return c.json({
-            token
-        })
+          userDetails: {
+            email: user.email.replace(/["/]/g, ""),
+            username: user.name?.replace(/["/]/g, "") || "Anonymous",
+          },
+          token,
+        });
     } catch (e) {
         console.log(e);
         return c.json({
@@ -87,3 +97,23 @@ userRouter.post("/signin", async (c) => {
         });
     }
 });
+
+userRouter.get("/user",async(c)=>{
+    console.log(c)
+
+   try{
+    const currentUser = await c.get("currentUser");
+    console.log(currentUser);
+    c.status(200);
+    return c.json({
+        status: "success",
+        currentUser 
+    })
+   }catch(e:any){
+    c.status(400);
+    c.json({
+        status: "fail",
+        message: e.message
+    })
+   }
+})

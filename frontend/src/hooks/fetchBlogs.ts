@@ -29,7 +29,7 @@ export const useBlogs = ()=>{
         }else {
             setLoading(false);
         }  
-        },[])
+        },[blogs]);
 
     return{
         loading,
@@ -83,4 +83,30 @@ export const useBlog =  ({id}:{id:string})=>{
         loading,
         blog
     };
+}
+
+export const useMyBlogs = ()=>{
+    const [isLoading, setIsLoading] = useState(false);
+    const [myBlogs, setMyBlogs] = useState<Blog[]>([]);
+
+        useEffect(() => {
+          if (myBlogs.length == 0) {
+            setIsLoading(true)
+            axios
+              .get(`${BASE_URL}/blog/myBlogs`, {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+              })
+              .then((response) => {
+                console.log(response.data);
+                setMyBlogs(response.data.myBlogs);
+                setIsLoading(false);
+              });
+          } else {
+            setIsLoading(false);
+          }
+        }, []);
+
+    return {isLoading, myBlogs};
 }

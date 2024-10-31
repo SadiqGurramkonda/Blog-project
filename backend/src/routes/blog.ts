@@ -93,6 +93,7 @@ blogRouter.put("/", async (c) => {
 
     const body = await c.req.json()
     const authorId = c.get("userId");
+    console.log(authorId)
 
     const { success } = updateBlogInput.safeParse(body);
      console.log(success);
@@ -160,7 +161,45 @@ blogRouter.get("/bulk", async (c) => {
             message: "Something went wrong"
         })
         }
-})
+});
+
+blogRouter.get("/myBlogs", async(c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const authorId  = c.get("userId");
+    console.log(authorId);
+
+    try{
+        const  blogs = await prisma.post.findMany({
+            where:{
+                authorId 
+            },
+            select:{
+                id: true,
+                title: true,
+                content:true,
+                author:{
+                    select: {
+                        name: true,
+                        email : true
+                    }
+                }
+            }
+        });
+        // blog!.author.name = blog?.author?.name?blog?.author?.name.replace(/[^a-zA-Z ]/g, ""):"Anonymous"
+        return c.json({
+            myBlogs: blogs
+        })
+    }catch(e){
+        console.log(e);
+        c.status(500);
+        return c.json({
+            message: "Error while fetching blog"
+        })
+    }
+});
 
 blogRouter.get("/:id", async(c) => {
     const prisma = new PrismaClient({
@@ -196,6 +235,9 @@ blogRouter.get("/:id", async(c) => {
             message: "Error while fetching blog"
         })
     }
-})
+});
+
+
+
 
 
