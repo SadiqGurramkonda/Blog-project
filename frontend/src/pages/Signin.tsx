@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AuthHeader,
   ButtonLoading,
@@ -11,8 +11,9 @@ import { BASE_URL } from "../config";
 import { SigninInput } from "@sadiqgurramkonda/medium-common";
 import { useNavigate } from "react-router-dom";
 import { ErrorLabel } from "../components/ErrorLabel";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, } from "recoil";
 import { currentUserState } from "../store/blogs";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export const Signin = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export const Signin = () => {
     email: "",
     password: "",
   });
-  const setCurrentUser = useSetRecoilState(currentUserState);
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
 
   const signin = async () => {
@@ -42,6 +43,7 @@ export const Signin = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
       <div className="h-screen flex flex-col bg-slate-300 justify-center">

@@ -189,8 +189,14 @@ blogRouter.get("/myBlogs", async(c) => {
             }
         });
         // blog!.author.name = blog?.author?.name?blog?.author?.name.replace(/[^a-zA-Z ]/g, ""):"Anonymous"
+        const trimmedBlogs = blogs.map((blog) => {
+          blog.author.name = blog.author.name
+            ? blog.author.name.replace(/[^a-zA-Z ]/g, "")
+            : "Anonymous";
+          return blog;
+        });
         return c.json({
-            myBlogs: blogs
+            myBlogs: trimmedBlogs
         })
     }catch(e){
         console.log(e);
