@@ -22,6 +22,7 @@ export const Signin = () => {
     email: "",
     password: "",
   });
+  //@ts-ignore
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
 
