@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   AuthHeader,
   ButtonLoading,
@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { ErrorLabel } from "../components/ErrorLabel";
 import { useRecoilState, } from "recoil";
 import { currentUserState } from "../store/blogs";
-import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export const Signin = () => {
   const navigate = useNavigate();
